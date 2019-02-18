@@ -1,4 +1,4 @@
-## [博客地址](http://mingshined.github.io/MingShined-Blog/dist/index.html)
+## [博客地址](http://mingshined.github.io)
 
 ## 技术栈概览
 1. 前台：Umi(路由) + Antd(视图) + TypeScript(增加项目可维护性以及规范性)
