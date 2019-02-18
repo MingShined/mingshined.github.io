@@ -239,7 +239,9 @@ export const simpleMdConfig = {
 
  * 图片资源的存放
    博客选用[ipic](https://toolinbox.net/iPic/)第三方软件来存放图片资源库。
+
    ![](https://user-gold-cdn.xitu.io/2019/2/14/168ec0dd17069220?w=690&h=388&f=gif&s=852608)
+
    通过简单的拖拽就可以实现图片的上传，上传成功后返回图片地址。
 
 ### 三、服务
