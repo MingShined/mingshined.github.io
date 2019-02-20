@@ -82,11 +82,31 @@ export function distingIsMobile<T>(): boolean {
 
 > 技术难点
 
-* **markdown语法的渲染**。博客采用react-markdown来渲染markdown语法。但是依然存在未解决的问题：
+* **markdown语法的渲染**。
 
- code代码块语法高亮无法实现
+我首先采用了react-markdown来渲染markdown语法。但是该组件存在一定的问题：
 
-  *博主目前依旧无法解决上诉两个问题。如在读的大神们对于上述问题有解决办法，请通过issue或者博主的联系方式联系博主，感激不尽！*
+ code代码块语法高亮无法实现，网上的一些解决办法并不生效。
+ 于是我放弃了使用这个组件。转向了[markdown-it](https://www.npmjs.com/package/markdown-it#usage-examples)。同时结合[markdown-it-highlightjs](markdown-it-highlightjs)实现code语法高亮，以此做了一个简单的封装，实现自己的markdown组件。
+
+ ```
+ import React, { Component, Fragment } from 'react';
+import { Basic } from 'src/types';
+const marked = require('markdown-it')().use(require('markdown-it-highlightjs'));
+ interface Props extends Basic.BaseProps {
+	source: string;
+}
+ export default class ReactMarkdown extends Component<Props> {
+	renderMarkdown = () => {
+      const source = this.props.source;
+	  return <div dangerouslySetInnerHTML={{ __html: marked.render(source) }} />;
+	};
+	render() {
+	  return <Fragment>{this.renderMarkdown()}</Fragment>;
+	}
+}
+ ```
+ 一切搞定之后，发现code标签内的代码已经成功分割为独立的标签，但是css并未生效，是因为还未定义高亮的css样式，于是我找到[highlight.js官网](https://highlightjs.org/static/demo/)，选了一个中意的高亮样式，然后在github中找到这个样式的css文件，copy到项目中，搞定！
 
 * **动画的设计**。博客采用Antd Animotion来实现动画效果。该博客的动画花费了博主大量的时间去设计和实现。
 * **简历模块采用react-fullpage来实现单页滚动效果**。其中，第三板块的技术栈详情弹窗采用了antd的modal，弹窗实例化后，改变了body的overflow值，导致单页滚动失效。博主通过按钮的点击事件手动设置body的overflow样式得以解决该问题。
@@ -239,9 +259,7 @@ export const simpleMdConfig = {
 
  * 图片资源的存放
    博客选用[ipic](https://toolinbox.net/iPic/)第三方软件来存放图片资源库。
-
    ![](https://user-gold-cdn.xitu.io/2019/2/14/168ec0dd17069220?w=690&h=388&f=gif&s=852608)
-
    通过简单的拖拽就可以实现图片的上传，上传成功后返回图片地址。
 
 ### 三、服务
